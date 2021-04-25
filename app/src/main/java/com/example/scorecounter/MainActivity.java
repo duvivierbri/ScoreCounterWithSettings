@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -177,5 +179,25 @@ public class MainActivity extends AppCompatActivity {
             changeToWinner.putExtra(DIFFERENCE, difference);
             startActivity(changeToWinner); //changes to the WinningActivity
         }
+    }
+
+    //Options menu code
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.countermenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.SettingsOption:
+                Intent goToSettings = new Intent(this, SettingsActivity.class);
+                startActivity(goToSettings);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

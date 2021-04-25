@@ -19,4 +19,16 @@
     <string name="call_a_friend">Call A Friend!</string>
     <string name="find_arenas_near_you">Find Arenas Near You!</string>
     <string name="enter_your_friend_s_number">Enter Your Friend\'s Number!</string>
+    <string-array name="sportsArray">
+        <item>Volleyball</item>
+        <item>Football</item>
+        <item>Basketball</item>
+    </string-array>
+    <string-array name="winnerImage">
+        <item>Thumbs Up</item>
+        <item>Trophy</item>
+        <item>Medal</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

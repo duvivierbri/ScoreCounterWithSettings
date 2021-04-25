@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ListPreference
+        android:defaultValue="true"
+        android:entries="@array/sportsArray"
+        android:entryValues="@array/sportsArray"
+        android:key="list_preference_1"
+        android:title="Sport" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/winnerImage"
+        android:entryValues="@array/winnerImage"
+        android:key="list_preference_2"
+        android:title="Winner Image" />
+</PreferenceScreen>
