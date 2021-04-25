@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ScoreCounter</string>
+    <string name="video_game_score_tracker">Video Game Score Tracker!</string>
+    <string name="choose_your_team_and_click_the_button_nwhenever_you_get_a_point">Choose your team and click the button \nwhenever you get a point!</string>
+    <string name="video_game_point_tracker">Video Game Point Tracker!</string>
+    <string name="num">num</string>
+    <string name="team1">Team1</string>
+    <string name="team2">Team2</string>
+    <string name="click_on_the_button_for_your_team_when_they_nget_a_point_the_first_team_to_5_points_wins">Click on the button for your team when they\nget a point! The first team to 5 points wins!!</string>
+    <string name="click_me">Click Me</string>
+    <string name="winner">WINNER!!</string>
+    <string name="volleyball_score_keeper">VolleyBall Score Keeper!</string>
+    <string name="a_picture_of_a_trophy">A picture of a trophy</string>
+    <string name="restart">Restart</string>
+    <string name="enter_name_of_team_2">Enter Name of Team 2</string>
+    <string name="enter_name_of_team_1">Enter Name of Team 1</string>
+    <string name="start">Start</string>
+    <string name="share">Share The News!</string>
+    <string name="call_a_friend">Call A Friend!</string>
+    <string name="find_arenas_near_you">Find Arenas Near You!</string>
+    <string name="enter_your_friend_s_number">Enter Your Friend\'s Number!</string>
+</resources>
