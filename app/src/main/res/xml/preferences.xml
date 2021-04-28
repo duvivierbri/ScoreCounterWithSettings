@@ -3,15 +3,23 @@
 
 
     <ListPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:defaultValue="true"
         android:entries="@array/sportsArray"
-        android:entryValues="@array/sportsArray"
-        android:key="list_preference_1"
+        android:entryValues="@array/sports_values"
+        android:key="sportPreference"
         android:title="Sport" />
     <ListPreference
         android:defaultValue="1"
         android:entries="@array/winnerImage"
-        android:entryValues="@array/winnerImage"
-        android:key="list_preference_2"
+        android:entryValues="@array/winner_values"
+        android:key="winnerImagePreference"
         android:title="Winner Image" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="contactPreference"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Contact" />
 </PreferenceScreen>

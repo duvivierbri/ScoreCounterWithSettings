@@ -21,14 +21,26 @@
     <string name="enter_your_friend_s_number">Enter Your Friend\'s Number!</string>
     <string-array name="sportsArray">
         <item>Volleyball</item>
-        <item>Football</item>
+        <item>Soccer</item>
         <item>Basketball</item>
     </string-array>
+    <array name="sports_values">
+        <item>@drawable/volleyballbackground</item>
+        <item>@drawable/soccerbackground</item>
+        <item>@drawable/basketballbackground</item>
+
+    </array>
     <string-array name="winnerImage">
         <item>Thumbs Up</item>
         <item>Trophy</item>
         <item>Medal</item>
     </string-array>
+
+    <array name="winner_values">
+        <item>@drawable/thumbsup</item>
+        <item>@drawable/trophybackground</item>
+        <item>@drawable/medal</item>
+    </array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

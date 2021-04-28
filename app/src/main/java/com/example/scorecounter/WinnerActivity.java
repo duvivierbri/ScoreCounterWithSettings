@@ -14,15 +14,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
+
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,10 +47,16 @@ public class WinnerActivity extends AppCompatActivity {
     private FloatingActionButton backButton;
     boolean canEnterNumber;
 
+    private SharedPreferences sharedPreferences;
+    private LinearLayout winnerLayout;
+
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winner);
+
+        winnerLayout = (LinearLayout)findViewById(R.id.winnerLayout);
 
         canEnterNumber = false;
         winnerText = (TextView)findViewById(R.id.winnerScreenText);
@@ -70,6 +82,26 @@ public class WinnerActivity extends AppCompatActivity {
         } else { //If not, that means team 2 wins!
             winnerText.setText("CONGRATULATIONS\n" + team2Name + " You won by " + difference + " points!");
             winningTeam = team2Name;
+        }
+
+        //~PREFERENCE PREFERENCES~
+        //get shared preferences object
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //set default values
+        String winnerBackground = sharedPreferences.getString("winnerImagePreference", "nothing");
+
+        Log.d("WINNER", winnerBackground);
+        //set winnerBackground of main layout based on preferences
+        TypedArray winnerImages = getResources().obtainTypedArray(R.array.winner_values);
+
+        //changing winnerBackground based on preferences
+        if(winnerBackground.matches("res/drawable/thumbsup.jpeg")){
+            winnerLayout.setBackgroundResource(winnerImages.getResourceId(0, -1));
+        }else if(winnerBackground.matches("res/drawable-v24/trophybackground.png")){
+            winnerLayout.setBackgroundResource(winnerImages.getResourceId(1, -1));
+        } else if(winnerBackground.matches("res/drawable/medal.jpeg")){
+            winnerLayout.setBackgroundResource(winnerImages.getResourceId(2, -1));
         }
     }
 

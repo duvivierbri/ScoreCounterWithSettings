@@ -14,7 +14,16 @@ package com.example.scorecounter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,12 +57,17 @@ public class MainActivity extends AppCompatActivity {
     private Button team1Button;
     private Button team2Button;
 
+    private SharedPreferences sharedPreferences;
+    private LinearLayout mainLinearLayout;
 
+
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) { //initial values and functions on startup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Assigning all variables to views in my design
+        mainLinearLayout = (LinearLayout)findViewById(R.id.mainLayout);
         team1ScoreText = (TextView)findViewById(R.id.team1Score);
         team2ScoreText = (TextView)findViewById(R.id.team2Score);
         team1Title = (TextView)findViewById(R.id.team1Text);
@@ -63,6 +78,23 @@ public class MainActivity extends AppCompatActivity {
         team1Button = (Button)findViewById(R.id.team1Button);
         team2Button = (Button)findViewById(R.id.team2Button);
         beginButton = (Button)findViewById(R.id.beginButton);
+
+        //get shared preferences object
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //set default values
+        String background = sharedPreferences.getString("sportPreference", "nothing");
+        //set background of main layout based on preferences
+        TypedArray mainPictures = getResources().obtainTypedArray(R.array.sports_values);
+
+        //changing background based on preferences
+        if(background.matches("res/drawable/basketballbackground.jpg")){
+            mainLinearLayout.setBackgroundResource(mainPictures.getResourceId(2, -1));
+        }else if(background.matches("res/drawable/soccerbackground.jpg")){
+            mainLinearLayout.setBackgroundResource(mainPictures.getResourceId(1, -1));
+        } else if(background.matches("res/drawable/volleyballbackground.png")){
+            mainLinearLayout.setBackgroundResource(mainPictures.getResourceId(0, -1));
+        }
 
         hideCounterViews();
 
