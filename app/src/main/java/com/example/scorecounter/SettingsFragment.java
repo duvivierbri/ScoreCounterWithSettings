@@ -2,18 +2,12 @@ package com.example.scorecounter;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.List;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
