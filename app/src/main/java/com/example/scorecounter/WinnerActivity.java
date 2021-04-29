@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -88,14 +89,15 @@ public class WinnerActivity extends AppCompatActivity {
         //get shared preferences object
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        //set default values
+        //get values
         String winnerBackground = sharedPreferences.getString("winnerImagePreference", "nothing");
 
         Log.d("WINNER", winnerBackground);
+        //Log.d("NUMBER", "Current number: " + phoneNumber);
         //set winnerBackground of main layout based on preferences
         TypedArray winnerImages = getResources().obtainTypedArray(R.array.winner_values);
 
-        //changing winnerBackground based on preferences
+        //changing winnerBackground based on user selected preferences
         if(winnerBackground.matches("res/drawable/thumbsup.jpeg")){
             winnerLayout.setBackgroundResource(winnerImages.getResourceId(0, -1));
         }else if(winnerBackground.matches("res/drawable-v24/trophybackground.png")){
@@ -123,10 +125,6 @@ public class WinnerActivity extends AppCompatActivity {
         savedInstanceState2.getString("currNum");
         savedInstanceState2.getString("team1");
         savedInstanceState2.getString("team2");
-
-        if (savedInstanceState2.getBoolean("canEnter") == true){ //Makes sure the textbox to enter the number is still showing
-            showEnterNumTextField();
-        }
     }
 
     public void redoButtonCode(View view){ //This code is for the redo button which brings the user back to the MainActivity
@@ -135,64 +133,43 @@ public class WinnerActivity extends AppCompatActivity {
     }
 
     public void sendMessageButton(View view){ //This is the code for the send message button on the winner screen
-        Intent smsIntent = new Intent(Intent.ACTION_SEND);
-        smsIntent.putExtra(Intent.EXTRA_TEXT, "Hey! Just letting you know that " + winningTeam + " won by " + difference + " points!");
-        smsIntent.setType("text/plain");
 
-        Intent showChooserIntent = Intent.createChooser(smsIntent, "ShareWithFriends"); //User can choose what app they would like to use
-        try {
-            startActivity(showChooserIntent);
-        } catch (ActivityNotFoundException e) {
-            Log.d("OH NO", "We can't find an activity to text!");
-        }
+        String messageToSend = "Hey! Just letting you know that " + winningTeam + " won by " + difference + " points!";
+        String preferredNum = sharedPreferences.getString("contactPreference", "404");
+
+        SmsManager.getDefault().sendTextMessage(preferredNum, null, messageToSend, null,null);
+        Toast messageSentAlert = Toast.makeText(this, "Message sent!" , Toast.LENGTH_LONG);
+        messageSentAlert.show();
     }
 
     public void checkPermissionAndCall(View view){ //Makes sure we have permission from the user to use the phone app on their phone
-        String friendNum = enterNum.getText().toString();
-        Toast noNumberWarning = Toast.makeText(this,"Please fill in a number!", Toast.LENGTH_LONG); //warning message
+        String userPhoneNumber = sharedPreferences.getString("contactPreference", "404");
 
         if (ContextCompat.checkSelfPermission(WinnerActivity.this, CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
-            showEnterNumTextField(); //show the text field so the user can enter a number
+            if(userPhoneNumber.matches("404") || userPhoneNumber.matches("")) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Phone Number Not Found")
+                        .setMessage("Please enter the number you would like to call in your user settings under 'Contacts' to make a phone call")
+                        .setPositiveButton("Go To Settings", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent goToSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+                                startActivity(goToSettings);
+                            }
+                        })
+                        .setNegativeButton("Forget It", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+            }else {
+                Uri phoneNum = Uri.parse("tel:" + sharedPreferences.getString("contactPreference", "404"));
+                Intent callIntent = new Intent(Intent.ACTION_CALL, phoneNum);
+                startActivity(callIntent);
+            }
         } else {
             requestCallPermission(); //ask if the app can gain access to their call app
-        }
-
-        if (canEnterNumber == true){
-            if (friendNum.matches("")){ //Checks to make sure they've entered in a number
-                noNumberWarning.show(); //Warning to tell the user they haven't entered in a number
-            } else {
-                callFriend(); // When they've entered a number, make the call!
-            }
-        }
-    }
-
-    public void showEnterNumTextField(){ //Shows the text field where the user can enter a number and the back floating action button
-        canEnterNumber = true;
-        enterNum.setVisibility(View.VISIBLE);
-        backButton.setVisibility(View.VISIBLE);
-        share.setVisibility(View.INVISIBLE);
-        restart.setVisibility(View.INVISIBLE);
-        findNearYou.setVisibility(View.INVISIBLE);
-    }
-
-    public void hideEnterNumTextField(){ //Hide the text field where the user can enter a number and the back floating action button
-        canEnterNumber = false;
-        enterNum.setVisibility(View.INVISIBLE);
-        backButton.setVisibility(View.INVISIBLE);
-        share.setVisibility(View.VISIBLE);
-        restart.setVisibility(View.VISIBLE);
-        findNearYou.setVisibility(View.VISIBLE);
-
-    }
-
-    public void callFriend(){ //Function used to initiate the ACTION_CALL intent which allows the user to call whatever number they entered
-        Uri phoneNum = Uri.parse("tel:" + String.valueOf(enterNum.getText()));
-        Intent callIntent = new Intent(Intent.ACTION_CALL, phoneNum);
-
-        try {
-            startActivity(callIntent);
-        } catch (ActivityNotFoundException e) {
-            Log.d("OH NO", "We cant text!");
         }
     }
 
@@ -204,7 +181,7 @@ public class WinnerActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(WinnerActivity.this, new String[]{CALL_PHONE}, 1); //grand permission
-                        showEnterNumTextField(); //bring them to the text box so they can enter their number
+                        //showEnterNumTextField(); //bring them to the text box so they can enter their number
                     }
                 })
                 .setNegativeButton("Nah...", new DialogInterface.OnClickListener() {
@@ -226,9 +203,5 @@ public class WinnerActivity extends AppCompatActivity {
         }catch (ActivityNotFoundException e){
             Log.d("OH NO", "Activity not found to open a map!!");
         }
-    }
-
-    public void goBack(View view){ //Code for the floating action button
-        hideEnterNumTextField();
     }
 }

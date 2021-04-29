@@ -16,10 +16,16 @@
         android:entryValues="@array/winner_values"
         android:key="winnerImagePreference"
         android:title="Winner Image" />
+
     <EditTextPreference
-        android:defaultValue="Default value"
+        android:inputType="number"
         android:key="contactPreference"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Contact" />
+
+    <EditTextPreference
+        android:title="Favorite Team"
+        android:key="favoriteTeam"
+        android:singleLine="true" />
 </PreferenceScreen>
