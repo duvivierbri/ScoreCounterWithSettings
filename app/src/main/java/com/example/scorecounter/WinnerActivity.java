@@ -85,11 +85,11 @@ public class WinnerActivity extends AppCompatActivity {
             winningTeam = team2Name;
         }
 
-        //~PREFERENCE PREFERENCES~
+        //~PREFERENCE CODE~
         //get shared preferences object
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        //get values
+        //get value and set default to "nothing"
         String winnerBackground = sharedPreferences.getString("winnerImagePreference", "nothing");
 
         Log.d("WINNER", winnerBackground);

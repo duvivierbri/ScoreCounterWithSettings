@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView team2ScoreText;
     private TextView team1Title;
     private TextView team2Title;
+    private TextView titleText;
     private EditText enterTeam1;
     private EditText enterTeam2;
     private Button beginButton;
@@ -73,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
         team1Title = (TextView)findViewById(R.id.team1Text);
         team2Title = (TextView)findViewById(R.id.team2Text);
         instructions = (TextView) findViewById(R.id.instructions);
+        titleText = (TextView)findViewById(R.id.titleText);
         enterTeam1 = (EditText)findViewById(R.id.enterTeam1);
         enterTeam2 = (EditText)findViewById(R.id.enterTeam2);
         team1Button = (Button)findViewById(R.id.team1Button);
         team2Button = (Button)findViewById(R.id.team2Button);
         beginButton = (Button)findViewById(R.id.beginButton);
 
-        //get shared preferences object
+        //getting shared preferences object
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         //set default values
@@ -87,13 +89,16 @@ public class MainActivity extends AppCompatActivity {
         //set background of main layout based on preferences
         TypedArray mainPictures = getResources().obtainTypedArray(R.array.sports_values);
 
-        //changing background based on preferences
+        //changing background of main activity based on preferences
         if(background.matches("res/drawable/basketballbackground.jpg")){
             mainLinearLayout.setBackgroundResource(mainPictures.getResourceId(2, -1));
+            titleText.setText("Basketball Score Counter");
         }else if(background.matches("res/drawable/soccerbackground.jpg")){
             mainLinearLayout.setBackgroundResource(mainPictures.getResourceId(1, -1));
+            titleText.setText("Soccer Score Counter");
         } else if(background.matches("res/drawable/volleyballbackground.png")){
             mainLinearLayout.setBackgroundResource(mainPictures.getResourceId(0, -1));
+            titleText.setText("Volleyball Score Counter");
         }
 
         hideCounterViews();

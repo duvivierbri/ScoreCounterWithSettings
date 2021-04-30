@@ -25,6 +25,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         EditTextPreference contactPreference = (EditTextPreference)findPreference("contactPreference");
         EditTextPreference teamPreference = (EditTextPreference)findPreference("favoriteTeam");
 
+        //Set default summaries
+        sportPreference.setSummary("Choose a sport");
+        winnerPreference.setSummary("Choose a background for the winner scene");
+        contactPreference.setSummary("Enter the phone number of the person you would like to call");
+        teamPreference.setSummary("Enter your favorite team");
+
         //Summary changed when user chooses their sport
         sportPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -44,7 +50,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         sport = "basketball";
                         break;
                 }
-
                 sportPreference.setSummary("You've chosen " + sport + " as your sport.");
                 return true;
             }
